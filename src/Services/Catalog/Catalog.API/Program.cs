@@ -1,8 +1,9 @@
 using BuildingBlocks.Behaviours;
+using BuildingBlocks.Exceptions.Handler;
 using Carter;
-using Catalog.API.Products.CreateProduct;
 using FluentValidation;
 using Marten;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assembly);
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 builder.Services.AddValidatorsFromAssembly(assembly);
@@ -23,9 +25,13 @@ builder.Services.AddMarten(option =>
  
 }).UseLightweightSessions();
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 //after: configure the HTTP request pipeline
 app.MapCarter();
+
+app.UseExceptionHandler(options => { });
 
 app.Run();

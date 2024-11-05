@@ -6,7 +6,7 @@ using MediatR;
 namespace Catalog.API.Products.GetProductByCategory
 {
     public record GetProductByCategoryResponse(IEnumerable<Product> Products);
-    public class GetProdutByCategoryEndpoint : ICarterModule
+    public class GetProductByCategoryEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {

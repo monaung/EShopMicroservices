@@ -26,18 +26,17 @@ namespace Catalog.API.Products.UpdateProduct
         }
     }
 
-    public class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductCommandHandler> logger) 
+    public class UpdateProductCommandHandler(IDocumentSession session) 
         : ICommandHandler<UpdateProductCommand,  UpdateProductResult>
     {
         async Task<UpdateProductResult> IRequestHandler<UpdateProductCommand, UpdateProductResult>.Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
-            logger.LogInformation("UpdateProductCommandHandler.Handler with command {@Command}", command);
-
+         
             var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
             if (product == null)
             {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException(command.Id);
             }
 
             product.Name = command.Name;
