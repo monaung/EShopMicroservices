@@ -12,7 +12,7 @@ namespace Ordering.Infrastructure.Data.Extensions
 {
     public static class DatabaseExtentions
     {
-        public static async Task InitialisedDatabaseAsync(this WebApplication app)
+        public static async Task InitialiseDatabaseAsync(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
             

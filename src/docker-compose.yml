@@ -6,11 +6,15 @@ services:
   distributedcache:
     image: redis
  
+  orderdb:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
+  
   basketdb:
     image: postgres
 
