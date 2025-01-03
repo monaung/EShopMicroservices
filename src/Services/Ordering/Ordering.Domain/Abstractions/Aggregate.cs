@@ -1,29 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ordering.Domain.Abstractions
+﻿
+namespace Ordering.Domain.Abstractions;
+public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
 {
-    public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
+    private readonly List<IDomainEvent> _domainEvents = new();
+    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
+    public void AddDomainEvent(IDomainEvent domainEvent)
     {
-        private readonly List<IDomainEvent> _domainEvents = new();
-        public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        _domainEvents.Add(domainEvent);
+    }
 
-        public void AddDomainEvent(IDomainEvent domainEvent)
-        {
-            _domainEvents.Add(domainEvent);
-        }
+    public IDomainEvent[] ClearDomainEvents()
+    {
+        IDomainEvent[] dequeuedEvents = _domainEvents.ToArray();
 
-        public IDomainEvent[] ClearDomainEvents()
-        {
-            IDomainEvent[] dequeuedEvents = _domainEvents.ToArray();
+        _domainEvents.Clear();
 
-            _domainEvents.Clear();
-
-            return dequeuedEvents;
-        }
-
+        return dequeuedEvents;
     }
 }

@@ -1,10 +1,4 @@
-﻿using BuildingBlocks.CQRS;
-using Microsoft.EntityFrameworkCore;
-using Ordering.Application.Data;
-using Ordering.Application.Extensions;
-using Ordering.Domain.ValueObjects;
-
-namespace Ordering.Application.Orders.Queries.GetOrdersByCustomer;
+﻿namespace Ordering.Application.Orders.Queries.GetOrdersByCustomer;
 public class GetOrdersByCustomerHandler(IApplicationDbContext dbContext)
     : IQueryHandler<GetOrdersByCustomerQuery, GetOrdersByCustomerResult>
 {
@@ -20,6 +14,6 @@ public class GetOrdersByCustomerHandler(IApplicationDbContext dbContext)
                         .OrderBy(o => o.OrderName.Value)
                         .ToListAsync(cancellationToken);
 
-        return new GetOrdersByCustomerResult(orders.ToOrderDtoList());
+        return new GetOrdersByCustomerResult(orders.ToOrderDtoList());        
     }
 }

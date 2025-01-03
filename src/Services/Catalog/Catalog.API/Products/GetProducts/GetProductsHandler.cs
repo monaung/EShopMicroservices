@@ -1,20 +1,17 @@
-﻿using BuildingBlocks.CQRS;
-using Catalog.API.Models;
-using Marten;
-using Marten.Pagination;
+﻿namespace Catalog.API.Products.GetProducts;
 
-namespace Catalog.API.Products.GetProducts
+public record GetProductsQuery(int? PageNumber = 1, int? PageSize = 10) : IQuery<GetProductsResult>;
+public record GetProductsResult(IEnumerable<Product> Products);
+
+internal class GetProductsQueryHandler
+    (IDocumentSession session)
+    : IQueryHandler<GetProductsQuery, GetProductsResult>
 {
-    public record GetProductsQuery(int? PageNumber = 1, int? PageSize = 10) :IQuery<GetProductResult>;
-    public record GetProductResult(IEnumerable<Product> Products);
-    internal class GetProductsQueryHandler(IDocumentSession session) 
-        : IQueryHandler<GetProductsQuery, GetProductResult>
+    public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
     {
-        public async Task<GetProductResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
-        {
-            var products = await session.Query<Product>().ToPagedListAsync(query.PageNumber ?? 1, query.PageSize ?? 10, cancellationToken);
+        var products = await session.Query<Product>()
+            .ToPagedListAsync(query.PageNumber ?? 1, query.PageSize ?? 10, cancellationToken);
 
-            return new GetProductResult(products);
-        }
+        return new GetProductsResult(products);
     }
 }

@@ -1,18 +1,8 @@
-﻿using BuildingBlocks.CQRS;
-using BuildingBlocks.Pagination;
-using Microsoft.EntityFrameworkCore;
-using Ordering.Application.Data;
-using Ordering.Application.Dtos;
-using Ordering.Application.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BuildingBlocks.Pagination;
 
 namespace Ordering.Application.Orders.Queries.GetOrders;
-
-public class GetOdersQueryHandler(IApplicationDbContext dbContext) : IQueryHandler<GetOrdersQuery, GetOrdersResult>
+public class GetOrdersHandler(IApplicationDbContext dbContext)
+    : IQueryHandler<GetOrdersQuery, GetOrdersResult>
 {
     public async Task<GetOrdersResult> Handle(GetOrdersQuery query, CancellationToken cancellationToken)
     {
@@ -36,6 +26,6 @@ public class GetOdersQueryHandler(IApplicationDbContext dbContext) : IQueryHandl
                 pageIndex,
                 pageSize,
                 totalCount,
-                orders.ToOrderDtoList()));
+                orders.ToOrderDtoList()));        
     }
 }

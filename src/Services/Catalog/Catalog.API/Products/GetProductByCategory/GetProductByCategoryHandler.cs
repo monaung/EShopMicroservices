@@ -1,26 +1,19 @@
-﻿using BuildingBlocks.CQRS;
-using Catalog.API.Models;
-using Marten;
+﻿
+namespace Catalog.API.Products.GetProductByCategory;
 
-namespace Catalog.API.Products.GetProductByCategory
+public record GetProductByCategoryQuery(string Category) : IQuery<GetProductByCategoryResult>;
+public record GetProductByCategoryResult(IEnumerable<Product> Products);
+
+internal class GetProductByCategoryQueryHandler
+    (IDocumentSession session)
+    : IQueryHandler<GetProductByCategoryQuery, GetProductByCategoryResult>
 {
-    public record GetProductByCategoryQuery(string Category):IQuery<GetProductByCategoryResult>;
-    public record GetProductByCategoryResult(IEnumerable<Product> Products);
-    public class GetProductByCategoryQueryHandler : IQueryHandler<GetProductByCategoryQuery, GetProductByCategoryResult>
+    public async Task<GetProductByCategoryResult> Handle(GetProductByCategoryQuery query, CancellationToken cancellationToken)
     {
-        private readonly IDocumentSession session;
+        var products = await session.Query<Product>()
+            .Where(p => p.Category.Contains(query.Category))
+            .ToListAsync(cancellationToken);
 
-        public GetProductByCategoryQueryHandler(IDocumentSession session)
-        {
-            this.session = session;
-        }
-        public async Task<GetProductByCategoryResult> Handle(GetProductByCategoryQuery query, CancellationToken cancellationToken)
-        {
- 
-            var products = await session.Query<Product>().Where(p => p.Category.Contains(query.Category))
-                .ToListAsync();
-
-            return new GetProductByCategoryResult(products);
-        }
+        return new GetProductByCategoryResult(products);
     }
 }

@@ -4,19 +4,18 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dec387c9-5a90-4bef-8050-a90c6f6f64a7</UserSecretsId>
+    <UserSecretsId>5bac83bc-291e-4956-a620-0cbbddb9de7a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
-    <PackageReference Include="Carter" Version="8.0.0" />
-    <PackageReference Include="Marten" Version="6.4.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  <ItemGroup>    
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.0" />    
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />    
+    <PackageReference Include="Carter" Version="8.0.0" />    
+    <PackageReference Include="Marten" Version="6.4.1" />    
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
   </ItemGroup>
 
   <ItemGroup>
